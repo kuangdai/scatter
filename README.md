@@ -65,7 +65,8 @@ Notes:
 * You can also generate a reference simulation without mantle heterogeneities
 using `prepare_input_no_hetero.ipynb`.
 * You can turn on 3D mantle (S40RTS) and/or crust (Crust 1.0) to generate more 
-realistic seismograms, making migration more challenging.
+realistic seismograms, making migration more challenging. Turning on 3D crust
+will make the simulations more expensive.
 
 
 ## 3 Visualization and postprocessing
