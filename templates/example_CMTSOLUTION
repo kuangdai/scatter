@@ -1,13 +1,13 @@
-PDE 2011  8 23 17 51  4.60  37.9400  -77.9300   6.0 5.9 5.8 VIRGINIA                                
-event name:     201108231751A  
-time shift:      0.00
-half duration:   50.00
-latitude:       37.9100
-longitude:     -77.9300
-depth:          12.0000
-Mrr:       4.710000e+24
-Mtt:       3.810000e+22
-Mpp:      -4.740000e+24
-Mrt:       3.990000e+23
-Mrp:      -8.050000e+23
-Mtp:      -1.230000e+24
+ PDEW2018  8 19  0 19 40.70 -18.1100 -178.1500 600.0 0.0 8.2 FIJI ISLANDS REGION                     
+event name:     201808190019A  
+time shift:     18.3100
+half duration:  30.8000
+latitude:      -17.8600
+longitude:    -177.8500
+depth:         554.9600
+Mrr:      -1.460000e+28
+Mtt:      -1.160000e+27
+Mpp:       1.580000e+28
+Mrt:      -4.000000e+27
+Mrp:      -1.860000e+28
+Mtp:       7.190000e+27
