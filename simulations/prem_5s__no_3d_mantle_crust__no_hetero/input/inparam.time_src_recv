@@ -41,14 +41,14 @@ SOURCE_FILE                                 CMTSOLUTION
 
 # WHAT: source time function
 # TYPE: erf / gauss / ricker
-SOURCE_TIME_FUNCTION                        erf
+SOURCE_TIME_FUNCTION                        gauss
 
 # WHAT: half duration of source time function
 # TYPE: real
 # NOTE: Use a zero half duration so that the synthetics can be convolved
 #       with any source time function after the simulation;
 #       The half duration in CMTSOLUTION is not used.
-SOURCE_STF_HALF_DURATION                    5.0
+SOURCE_STF_HALF_DURATION                    0.
 
 
 
