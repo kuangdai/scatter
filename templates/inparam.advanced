@@ -80,7 +80,7 @@ DEVELOP_NON_SOURCE_MODE                     false
 # WHAT: diagnose preprocessing runtime
 # TYPE: bool
 # NOTE: see results in output/develop/preloop_timer.txt
-DEVELOP_DIAGNOSE_PRELOOP                    false
+DEVELOP_DIAGNOSE_PRELOOP                    true
 
 # WHAT: dump cost measurements for elements and points
 # TYPE: bool
