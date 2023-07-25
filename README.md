@@ -47,11 +47,17 @@ pip3 install https://gitlab.com/Salvus/SalvusMeshLite/-/archive/master/SalvusMes
 ```
 
 ## 2 Prepare input files and run the job
-1. On your laptop, follow `prepare_input_hetero.ipynb` step by step. 
-Once it is done, you will get a complete simulation folder under `simulations/`, 
-such as `prem_5s__no_3d_mantle_crust__hetero_fuji_pacific_usarray/` if you run
-`prepare_input_hetero.ipynb` without changing anything. 
-The generated folder should include `submit.sh` and `input/`.
+1. On your laptop, follow `prepare_input_hetero.ipynb` step by step. Pay
+attention to cells marked by 
+   ```python
+   #############
+   # USER CELL #
+   #############
+   ```
+   Once this is done, you will get a complete simulation folder under `simulations/`, 
+   such as `prem_5s__no_3d_mantle_crust__hetero_fuji_pacific_usarray/` if you run
+   `prepare_input_hetero.ipynb` without changing anything. 
+   The generated folder should include `submit.sh` and `input/`.
 
 2. Copy this folder to `simulations/` on GRACE. 
 Note that `simulations/` on GRACE should be under the same folder as `build/`, 
