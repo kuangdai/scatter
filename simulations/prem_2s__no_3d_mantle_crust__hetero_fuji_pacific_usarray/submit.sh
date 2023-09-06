@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=1-00:00:00
-#SBATCH --partition=
+#SBATCH --partition=scavenge
 #SBATCH --ntasks=10000
 #SBATCH --job-name=prem_2s__no_3d_mantle_crust__hetero_fuji_pacific_usarray
 
