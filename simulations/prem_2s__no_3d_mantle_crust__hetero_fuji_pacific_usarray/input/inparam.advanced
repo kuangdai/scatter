@@ -1,0 +1,115 @@
+# inparam.advanced
+# created by Kuangdai on 28-Jun-2016 
+# advanced simulation parameters
+# NOTE:
+# a) angles are measured in degrees and distances in kilometers
+# b) string-typed parameters (except file names) are case insensitive
+# c) bool-typed parameters can be specified by 1/0, true/false, yes/no and on/off
+# d) prefix of input files is path_of_executable/input/
+# e) ParSeries is a series of parameters concatenated by '$', e.g., "s40rts$0.2"
+
+
+
+# ================================= attenuation ==================================
+# WHAT: whether to use coarse-grained attenuation
+# TYPE: bool
+# NOTE: always turn this on unless you are using polynomial orders other than 4
+ATTENUATION_CG4                             true
+
+# WHAT: whether to use SPECFEM legacy model
+# TYPE: bool
+# NOTE: turn this on when benchmarking SPECFEM solutions
+ATTENUATION_SPECFEM_LEGACY                  false
+
+# WHAT: whether to consider Q_Kappa or not
+# TYPE: bool 
+# NOTE: must be turned off if ATTENUATION_SPECFEM_LEGACY = true
+ATTENUATION_QKAPPA                          true
+
+
+
+# ============================== domain decomposition ==============================
+# WHAT: make candidate partitions only on ranks that are multiples of this number
+# TYPE: integer
+# NOTE: The default is 1. It is unlikely to be changed by users.
+#       This may be changed for very large scale problems (e.g., 1 Hz) where making 
+#       candidate partitions on all processors is undoable due to memory limitation. 
+#       Try to use prime factors of the number of processors per node (RAM) on your HPC.
+#       Partitioning will be performed only on root if DD_PROC_INTERVAL >= nproc.
+DD_PROC_INTERVAL                            1
+
+# WHAT: number of candidate partitions per processor
+# TYPE: integer
+# NOTE: The default is 1. It is unlikely to be changed by users.
+#       If too few processors perform partitioning, e.g. when DD_PROC_INTERVAL is large,
+#       one may increase DD_NCUT_PER_PROC to enhance partitioning quality.
+DD_NCUTS_PER_PROC                           1
+
+
+
+# ============================== simulation options ==============================
+# WHAT: verbose level of the solver
+# TYPE: none / essential / detailed
+# NOTE: always use "detailed" unless you are debugging with stdout
+OPTION_VERBOSE_LEVEL                        detailed
+
+# WHAT: interval for stability check
+# TYPE: integer
+# NOTE: change this to "1" to accurately locate the instability
+OPTION_STABILITY_INTERVAL                   1000
+
+# WHAT: interval to display time-loop information
+# TYPE: integer
+# NOTE: information such as elapsed / total / remaining wall-clock time 
+OPTION_LOOP_INFO_INTERVAL                   1000
+
+
+
+# ============================== development ==============================
+# WHAT: maximum number of time steps
+# TYPE: integer
+# NOTE: usually for performance test; set it to zero or negative to 
+#       determine the number of time steps by record length and deltaT
+DEVELOP_MAX_TIME_STEPS                      0
+
+# WHAT: switch of non-source mode
+# TYPE: bool
+# NOTE: if turned on, no source will be added; used for scaling test
+DEVELOP_NON_SOURCE_MODE                     false
+
+# WHAT: diagnose preprocessing runtime
+# TYPE: bool
+# NOTE: see results in output/develop/preloop_timer.txt
+DEVELOP_DIAGNOSE_PRELOOP                    true
+
+# WHAT: dump cost measurements for elements and points
+# TYPE: bool
+# NOTE: see results in output/develop/measured_costs.txt
+DEVELOP_MEASURED_COSTS                      false
+
+# WHAT: randomize displacement with tiny values at the beginning of timeloop
+# TYPE: bool
+# NOTE: do not change
+DEVELOP_RANDOMIZE_DISP0                     false
+
+
+
+# ============================== fftw ==============================
+# WHAT: whether to use fftw "lucky" numbers
+# TYPE: bool
+# NOTE: FFTW is best at handling logical sizes of the form 2^a 3^b 5^c 7^d 11^e 13^f, 
+#       where e+f is either 0 or 1, and the other exponents are arbitrary.
+#       We call numbers of this form lucky numbers.
+#       http://www.fftw.org/fftw2_doc/fftw_3.html
+FFTW_LUCKY_NUMBER                           true
+
+# WHAT: fftw_plan creation option
+# TYPE: bool
+# NOTE: false -- create fftw_plan use FFTW_PATIENT and learn FFTW_WISDOM
+#       true  -- create fftw_plan use FFTW_ESTIMATE
+#       For a large Nu, FFTW_PATIENT can be very expensive if there is 
+#       no previous FFTW_WISDOM. Never learn new FFTW_WISDOM with many cores.
+#       No idea about FFTW_WISDOM? Leave this as true.
+FFTW_DISABLE_WISDOM                         true
+
+

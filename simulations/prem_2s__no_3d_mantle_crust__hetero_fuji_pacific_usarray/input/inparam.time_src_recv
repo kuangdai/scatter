@@ -1,0 +1,133 @@
+# inparam.model
+# created by Kuangdai on 28-Jun-2016 
+# parameters for time, source and stations
+# NOTE:
+# a) angles are measured in degrees and distances in kilometers
+# b) string-typed parameters (except file names) are case insensitive
+# c) bool-typed parameters can be specified by 1/0, true/false, yes/no and on/off
+# d) prefix of input files is path_of_executable/input/
+# e) ParSeries is a series of parameters concatenated by '$', e.g., "s40rts$0.2"
+
+
+
+# ================================ time ================================
+# WHAT: enforced time step
+# TYPE: real
+# NOTE: deltaT will be computed automatically if TIME_DELTA_T <= 0.0
+TIME_DELTA_T                                0.0
+
+# WHAT: factor of time step
+# TYPE: real
+# NOTE: multiply the time step (computed or enforced) by this factor
+TIME_DELTA_T_FACTOR                         1.0
+
+# WHAT: record length in seconds
+# TYPE: real
+# NOTE: the actual simulation time will be slightly longer than the
+#       specified record length depending on the source time function   
+TIME_RECORD_LENGTH                          1200.0
+
+
+
+# ================================ source ================================
+# WHAT: source type
+# TYPE: earthquake / point_force
+SOURCE_TYPE                                 earthquake
+
+# WHAT: source file
+# TYPE: string (path to file)
+# NOTE: the file format for "earthquake" and "point_force" is CMTSOLUTION
+SOURCE_FILE                                 CMTSOLUTION
+
+# WHAT: source time function
+# TYPE: erf / gauss / ricker
+SOURCE_TIME_FUNCTION                        gauss
+
+# WHAT: half duration of source time function
+# TYPE: real
+# NOTE: Use a zero half duration so that the synthetics can be convolved
+#       with any source time function after the simulation;
+#       The half duration in CMTSOLUTION is not used.
+SOURCE_STF_HALF_DURATION                    0.
+
+
+
+# ================================ stations ================================
+# WHAT: file of stations
+# TYPE: string (path to file)
+# NOTE: Line format -- name network latitude longitude elevation depth [dump_strain]
+#       * The "elevation" (5th column) is NEVER used in AxiSEM3D because it is redundant.
+#         The actual elevation of a station is determined by topography and its depth.
+#       * The "depth" column should be given in meters instead of km.
+#       * If "dump_strain" is appended after "depth", the strain at this station will be
+#         computed and dumped. Strain components: [RR, TT, ZZ, TZ, RZ, RT] (Voigt rule)
+#       Use "none" if no station presents.
+OUT_STATIONS_FILE                           STATIONS
+
+# WHAT: coordinate system used in OUT_STATIONS_FILE
+# TYPE: geographic / source-centered
+# NOTE: geographic      -- name network latitude longitude elevation depth [dump_strain]
+#       source-centered -- name network distance azimuth elevation depth [dump_strain]
+# the column "elevation" is not used in AxiSEM3D but must be presented in each line
+# if "dump_strain" is appended, strain will be dumped in addition to displacement 
+OUT_STATIONS_SYSTEM                         geographic
+
+# WHAT: if duplicated stations (network + name) are found in OUT_STATIONS_FILE
+# TYPE: ignore / rename / error
+# NOTE: ignore -- take the first and ignore the rest duplications
+#       rename -- rename the duplicated stations
+#       error  -- raise an error and terminate the simulation
+OUT_STATIONS_DUPLICATED                     rename
+
+# WHAT: seismogram format
+# TYPE: ascii / netcdf / netcdf_no_assemble
+# NOTE: may be one or both of the two options
+#       * Do not use ascii if the number of stations exceeds/approximates 
+#         the open-files limit on you OS (find it with "ulimit -n").
+#       * If serial NetCDF library is used, the processors dump synthetics to individual 
+#         NetCDF files named axisem3d_synthetics.nc.rankXXXX (XXXX = processor rank),
+#         each containing part of the stations. The complete NetCDF file containing all 
+#         stations, named axisem3d_synthetics.nc, will be assembled after the time loop.
+#       * Assembling axisem3d_synthetics.nc.rankXXXX can be time-consuming for a large 
+#         number of stations, which can be avoided by using netcdf_no_assemble.
+#         A file named station_rank.txt will be provided to locate stations on ranks.  
+#       * If parallel NetCDF library is used, all processors dump directly into 
+#         axisem3d_synthetics.nc during the time loop. 
+#       * Use python_tools/nc2ascii.py to convert axisem3d_synthetics.nc
+#         into ascii format. 
+#       * Use python_tools/asdf/nc2asdf.py to convert axisem3d_synthetics.nc
+#         into the ASDF format (https://seismic-data.org/). 
+OUT_STATIONS_FORMAT                         netcdf
+
+# WHAT: seismogram components
+# TYPE: RTZ / ENZ / SPZ
+# NOTE: RTZ -- radial, transverse, vertical (source-centered)
+#       ENZ -- east, north, vertical (geographic)
+#       SPZ -- s, phi, z (cylindrical, solver-inherent)
+OUT_STATIONS_COMPONENTS                     RTZ
+
+# WHAT: interval for seismogram sampling
+# TYPE: integer
+# NOTE: Time steps in between are ignored. We strongly discourage a sparse sampling
+#       at simulation stage and suggest OUT_STATIONS_RECORD_INTERVAL = 1.
+OUT_STATIONS_RECORD_INTERVAL                1
+
+# WHAT: interval to dump buffers to files
+# TYPE: integer
+# NOTE: set this to some large number to avoid frequent I/O access
+OUT_STATIONS_DUMP_INTERVAL                  1000
+
+# WHAT: whether to save wavefield on the surface
+# TYPE: bool
+# NOTE: * Having the whole wavefield on the surface, one can extract synthetics
+#         at any unburied receiver locations after the simulation, using the
+#         provided script python_tools/surface2stations.py.
+#       * parameters OUT_STATIONS_RECORD_INTERVAL and OUT_STATIONS_DUMP_INTERVAL 
+#         still apply to this option.
+OUT_STATIONS_WHOLE_SURFACE                  false
+
+# WHAT: buried depth measured in reference spherical model
+# TYPE: bool
+# NOTE: false -- buried depth measured in physical undulated model
+#       true  -- buried depth measured in reference spherical model
+OUT_STATIONS_DEPTH_REF                      false
